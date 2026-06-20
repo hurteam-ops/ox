@@ -701,13 +701,15 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
         title: "Toggle reasoning",
         category: "Agent",
         run: () => {
-          const { execSync } = require("child_process")
-          try {
-            execSync("bash ~/.opencode/scripts/toggle-think.sh toggle", { timeout: 5000 })
-            toast.show({ title: "Reasoning toggled", message: "Check /think status for current state", variant: "info" })
-          } catch {
-            toast.show({ title: "Failed", message: "Could not toggle reasoning", variant: "error" })
-          }
+          import("child_process").then(({ execSync }) => {
+            try {
+              const home = process.env.HOME || ""
+              execSync(`bash ${home}/.opencode/scripts/toggle-think.sh toggle`, { timeout: 5000, stdio: "pipe" })
+              toast.show({ title: "Reasoning toggled", message: "Affects next message", variant: "info" })
+            } catch {
+              toast.show({ title: "Failed", message: "Could not toggle reasoning", variant: "error" })
+            }
+          })
         },
       },
       {
