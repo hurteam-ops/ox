@@ -109,6 +109,7 @@ const appBindingCommands = [
   "agent.cycle",
   "agent.cycle.reverse",
   "variant.cycle",
+  "variant.reasoning_toggle",
   "variant.list",
   "provider.connect",
   "console.org.switch",
@@ -693,6 +694,20 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
         category: "Agent",
         run: () => {
           local.model.variant.cycle()
+        },
+      },
+      {
+        name: "variant.reasoning_toggle",
+        title: "Toggle reasoning",
+        category: "Agent",
+        run: () => {
+          const { execSync } = require("child_process")
+          try {
+            execSync("bash ~/.opencode/scripts/toggle-think.sh toggle", { timeout: 5000 })
+            toast.show({ title: "Reasoning toggled", message: "Check /think status for current state", variant: "info" })
+          } catch {
+            toast.show({ title: "Failed", message: "Could not toggle reasoning", variant: "error" })
+          }
         },
       },
       {
