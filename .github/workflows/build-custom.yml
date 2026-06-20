@@ -22,5 +22,5 @@ jobs:
           bun run build --single --skip-embed-web-ui 2>&1
       - uses: actions/upload-artifact@v4
         with:
-          name: opencode-linux-x64
-          path: packages/opencode/dist/opencode-*/bin/opencode
+          name: ox-linux-x64
+          path: packages/opencode/dist/opencode-*/bin/ox
